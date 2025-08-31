@@ -187,15 +187,19 @@ const QuizScreen = () => {
       <View style={styles.cardContainer}>
         <View style={styles.cardWrapper}>
           <Animated.View style={[styles.card, frontAnimatedStyle]}>
-            <Card style={styles.flashcard} onPress={flipCard}>
+            <Card 
+              style={[styles.flashcard, { backgroundColor: '#FFFFFF' }]} 
+              onPress={flipCard}
+              elevation={5}
+            >
               <Card.Content style={styles.cardContent}>
-                <Text variant="labelMedium" style={styles.cardLabel}>
+                <Text variant="labelMedium" style={[styles.cardLabel, { color: theme.colors.primary }]}>
                   QUESTION
                 </Text>
                 <View style={styles.markdownContainer}>
                   <Markdown>{currentCard.front}</Markdown>
                 </View>
-                <Text variant="bodySmall" style={styles.tapHint}>
+                <Text variant="bodySmall" style={[styles.tapHint, { color: theme.colors.onSurfaceVariant }]}>
                   Tap to reveal answer
                 </Text>
               </Card.Content>
@@ -203,9 +207,13 @@ const QuizScreen = () => {
           </Animated.View>
 
           <Animated.View style={[styles.card, backAnimatedStyle]}>
-            <Card style={styles.flashcard} onPress={flipCard}>
+            <Card 
+              style={[styles.flashcard, { backgroundColor: '#FFFFFF' }]} 
+              onPress={flipCard}
+              elevation={5}
+            >
               <Card.Content style={styles.cardContent}>
-                <Text variant="labelMedium" style={styles.cardLabel}>
+                <Text variant="labelMedium" style={[styles.cardLabel, { color: theme.colors.primary }]}>
                   ANSWER
                 </Text>
                 <View style={styles.markdownContainer}>
@@ -295,7 +303,14 @@ const styles = StyleSheet.create({
   flashcard: {
     width: '100%',
     height: '100%',
-    elevation: 8,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
   },
   cardContent: {
     flex: 1,
@@ -305,9 +320,11 @@ const styles = StyleSheet.create({
   },
   cardLabel: {
     position: 'absolute',
-    top: 16,
-    left: 16,
-    opacity: 0.6,
+    top: 20,
+    left: 20,
+    fontWeight: 'bold',
+    fontSize: 12,
+    letterSpacing: 0.5,
   },
   markdownContainer: {
     flex: 1,

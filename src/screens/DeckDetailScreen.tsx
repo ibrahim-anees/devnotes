@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, IconButton, Menu, Button } from 'react-native-paper';
+import { Text, IconButton, Menu, Button, Surface } from 'react-native-paper';
 import { useTheme } from '../context/ThemeContext';
 import { useFlashcards } from '../context/FlashcardsContext';
 import { Flashcard, Deck } from '../types';
-import AnimatedCard from '../components/AnimatedCard';
 import AnimatedFAB from '../components/AnimatedFAB';
 import StaggeredList from '../components/StaggeredList';
 import CreateFlashcardModal from '../components/CreateFlashcardModal';
@@ -23,6 +22,7 @@ const DeckDetailScreen: React.FC<DeckDetailScreenProps> = ({ deck, onBack }) => 
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedFlashcard, setSelectedFlashcard] = useState<Flashcard | null>(null);
   const [menuVisible, setMenuVisible] = useState(false);
+  const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 });
 
   const flashcards = getFlashcardsByDeck(deck.id);
 
@@ -38,30 +38,34 @@ const DeckDetailScreen: React.FC<DeckDetailScreenProps> = ({ deck, onBack }) => 
   };
 
   const renderFlashcardItem = ({ item, index }: { item: Flashcard; index: number }) => (
-    <AnimatedCard 
-      delay={index * 100} 
-      style={[styles.flashcardCard, { backgroundColor: '#FFFFFF' }]}
-    >
-      <View style={styles.cardHeader}>
-        <Text variant="titleSmall" style={[styles.cardLabel, { color: theme.colors.primary }]}>FRONT</Text>
-        <IconButton
-          icon="dots-vertical"
-          onPress={() => {
-            setSelectedFlashcard(item);
-            setMenuVisible(true);
-          }}
-          iconColor={theme.colors.onSurface}
-        />
-      </View>
-      <View style={styles.cardContent}>
-        <Markdown>{item.front}</Markdown>
-      </View>
-      <View style={[styles.cardDivider, { backgroundColor: theme.colors.outline }]} />
-      <Text variant="titleSmall" style={[styles.cardLabel, { color: theme.colors.primary }]}>BACK</Text>
-      <View style={styles.cardContent}>
-        <Markdown>{item.back}</Markdown>
-      </View>
-    </AnimatedCard>
+    <View style={styles.flashcardCard}>
+      <Surface 
+        style={[styles.cardSurface, { backgroundColor: '#FFFFFF' }]} 
+        elevation={4}
+      >
+        <View style={styles.cardHeader}>
+          <Text variant="titleSmall" style={[styles.cardLabel, { color: theme.colors.primary }]}>FRONT</Text>
+          <IconButton
+            icon="dots-vertical"
+            onPress={(event) => {
+              const { pageX, pageY } = event.nativeEvent;
+              setMenuAnchor({ x: pageX, y: pageY });
+              setSelectedFlashcard(item);
+              setMenuVisible(true);
+            }}
+            iconColor={theme.colors.onSurface}
+          />
+        </View>
+        <View style={styles.cardContent}>
+          <Markdown>{item.front}</Markdown>
+        </View>
+        <View style={[styles.cardDivider, { backgroundColor: theme.colors.outline }]} />
+        <Text variant="titleSmall" style={[styles.cardLabel, { color: theme.colors.primary }]}>BACK</Text>
+        <View style={styles.cardContent}>
+          <Markdown>{item.back}</Markdown>
+        </View>
+      </Surface>
+    </View>
   );
 
   const renderEmptyState = () => (
@@ -138,7 +142,7 @@ const DeckDetailScreen: React.FC<DeckDetailScreenProps> = ({ deck, onBack }) => 
       <Menu
         visible={menuVisible}
         onDismiss={() => setMenuVisible(false)}
-        anchor={{ x: 0, y: 0 }}>
+        anchor={menuAnchor}>
         <Menu.Item
           onPress={() => {
             if (selectedFlashcard) {
@@ -215,9 +219,10 @@ const styles = StyleSheet.create({
   },
   flashcardCard: {
     marginBottom: 16,
+  },
+  cardSurface: {
     padding: 20,
     borderRadius: 16,
-    elevation: 3,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

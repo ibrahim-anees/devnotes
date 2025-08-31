@@ -134,7 +134,7 @@ const HomeScreen = () => {
         </Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {topicStats.slice(0, 5).map((topic, index) => (
-            <Surface key={topic.topic} style={styles.topicCard} elevation={2}>
+            <Surface key={topic.topic} style={[styles.topicCard, { backgroundColor: '#FFFFFF' }]} elevation={3}>
               <Text variant="titleSmall" style={[styles.topicTitle, { color: theme.colors.onSurface }]}>
                 {topic.topic}
               </Text>
@@ -222,7 +222,7 @@ const HomeScreen = () => {
 
           {/* Last Quiz Info */}
           {lastQuiz && (
-            <Surface style={[styles.lastQuizCard, { backgroundColor: theme.colors.surfaceVariant }]} elevation={3}>
+            <Surface style={[styles.lastQuizCard, { backgroundColor: '#FFFFFF' }]} elevation={4}>
               <Text variant="titleMedium" style={[styles.sectionTitle, { color: theme.colors.onSurface }]}>
                 🎯 Last Quiz Performance
               </Text>

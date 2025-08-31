@@ -113,13 +113,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   content: {
-    backgroundColor: 'white',
-    borderRadius: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
     padding: 24,
     margin: 32,
     width: '90%',
     maxWidth: 400,
     position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 8,
   },
   title: {
     textAlign: 'center',
@@ -129,6 +137,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderWidth: 2,
     elevation: 2,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
   },
   cardContent: {
     flexDirection: 'row',
